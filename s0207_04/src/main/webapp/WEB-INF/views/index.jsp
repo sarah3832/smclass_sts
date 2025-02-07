@@ -17,6 +17,7 @@
 		<ul>
 			<c:if test="${session_id == null}">
 				<li><a href="/board/blist">게시판</a></li>
+				<li><a href="/board/bview?bno=2">게시글 보기</a></li>
 				<li><a href="/member/mlist">회원 리스트</a></li>
 				<li><a href="/member/login">로그인</a></li>
 				<li><a href="/member/memInsert">회원가입</a></li>
