@@ -22,4 +22,5 @@ public class BoardDto {
 	private int bindent;  // 답변달기시 들여쓰기
 	private int bhit;
 	private Timestamp bdate;
+	private String bfile;
 }

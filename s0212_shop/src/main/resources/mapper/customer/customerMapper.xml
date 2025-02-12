@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- dao Interface파일 위치 -->
+<mapper namespace="com.java.dao.CustomerMapper">
+
+	<!-- 공지사항 리스트 -->
+	<select id="selectAll" resultType="com.java.dto.BoardDto">
+		select * from (
+		select row_number() over (order by bgroup desc, bstep asc) rnum,
+		a.* from board a
+		<if test="category == 'btitle' or category == 'bcontent'">
+			where ${category} like '%'||#{searchW}||'%'
+		</if>
+		<if test="category == 'all'">
+			where btitle like '%'||#{searchW||'%' or bcontent like '%'||#{searchW}||'%'
+		</if>
+		) where rnum between #{startrow} and #{endrow}
+	</select>
+	
+	<select id="countAll" resultType="int">
+		select count(*) from board
+		<if test="category == 'btitle' or category == 'bcontent'">
+			where ${category} like '%'||#{searchW}||'%'
+		</if>
+		<if test="category == 'all'">
+			where btitle like '%'||#{searchW}||'%' or bcontent like '%'||#{searchW}||'%'
+		</if>
+	</select>
+	
+	<!-- 공지사항 현재 게시글 -->
+	<select id="selectOne" resultType="com.java.dto.BoardDto">
+		select * from board where bno=#{bno}
+	</select>
+	
+	<!-- 이전 게시글 -->
+	 <select id="selectOneP">
+	 	select * from board where bno = (
+	 	select prev_bno from(
+	 	select bno,lead(bno,1,-1) over (order by bgroup desc, bstep asc) as prev_bno from board
+	 	)where bno=#{bno})
+	 </select>
+	 
+	<!-- 다음 게시글 -->
+	 <select id="selectOneN">
+	 	select * from board where bno = (
+	 	select prev_bno from(
+	 	select bno,lag(bno,1,-1) over (order by bgroup desc, bstep asc) as prev_bno from board
+	 	)where bno=#{bno})
+	 </select>
+	
+</mapper>

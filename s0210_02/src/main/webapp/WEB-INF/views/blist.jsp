@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,10 +52,11 @@
 
     <table>
       <colgroup>
-        <col width="15%">
+        <col width="13%">
         <col width="*">
-        <col width="18%">
-        <col width="18%">
+        <col width="13%">
+        <col width="13%">
+        <col width="13%">
         <col width="10%">
       </colgroup>
       <!-- 제목부분 -->
@@ -65,6 +66,7 @@
         <th>작성자</th>
         <th>작성일</th>
         <th>조회수</th>
+        <th>파일첨부</th>
       </tr>
       <!-- 내용부분 -->
       <c:forEach items="${list}" var="bdto">
@@ -79,8 +81,17 @@
 				</a>     
         </td>
         <td>${bdto.id}</td>
-        <td>${bdto.bdate}</td>
+        <td>
+        	<fmt:formatDate value="${bdto.bdate }" pattern="yyyy-MM-dd"/>
+        </td>
         <td>${bdto.bhit}</td>
+        <td>
+        	<c:if test="${bdto.bfile != null}">
+        		<a href="/upload/board/${bdto.bfile}" download>
+        		<img src="/images/fileicon.png" width="20px"/>
+        		</a>
+        	</c:if>
+        </td>
       </tr>
       </c:forEach>
       

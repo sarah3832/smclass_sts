@@ -1,5 +1,6 @@
 package com.java.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -9,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.java.dto.BoardDto;
 import com.java.service.BoardService;
@@ -46,7 +49,19 @@ public class BoardController {
 	
 	// 글쓰기 저장
 	@PostMapping("/board/bwrite")
-	public String bwrite(BoardDto bdto) {
+	public String bwrite(BoardDto bdto, @RequestPart MultipartFile files) throws Exception{
+
+		bdto.setBfile("");  // 처음엔 파일이 없는상태
+		if(!files.isEmpty()) {  // 파일이 있나
+			String origin = files.getOriginalFilename(); 
+			long time = System.currentTimeMillis();
+			String realFilename = String.format("%d_%s", time, origin);
+			String url = "c:/upload/board/";
+			File f = new File(url+realFilename);
+			files.transferTo(f);
+			bdto.setBfile(realFilename);
+		}
+		
 		boardService.bwrite(bdto);
 		return "redirect:/board/blist";  // redirect 하면 model이 안감
 	}
