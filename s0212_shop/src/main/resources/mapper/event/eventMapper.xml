@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- dao Interface파일 위치 -->
+<mapper namespace="com.java.dao.EventMapper">
+
+	<!-- 이벤트 페이지 -->
+	<select id="selectAll" resultType="com.java.dto.EventDto">
+		<![CDATA[
+		select * from event where rownum <=4 order by eno desc
+		]]>
+		<!-- select * from event where rownum between 1 and 4 order by eno desc -->
+	</select>
+	
+	<!-- 이벤트 상세보기 -->
+	<select id="selectOne" resultType="com.java.dto.EventDto">
+		select * from event where eno=#{eno}
+	</select>
+	
+	<!-- 하단댓글 가져오기 -->
+	<select id="selectAllCboard" resultType="com.java.dto.CboardDto">
+		select * from cboard where eno = #{eno} order by cno desc
+	</select>
+	
+	<!-- 하단댓글 저장 -->
+	<insert id="insertCboard">
+		<selectKey resultType="int" keyProperty="cno" order="BEFORE">
+			select cboard_seq.nextval from dual 
+		</selectKey>
+		insert into cboard values(#{cno},#{eno},#{id},#{cpw},#{ccontent},sysdate)
+	</insert>
+	
+	<!-- 저장된 댓글 가져오기 -->
+	<select id="selectOneCboard" resultType="com.java.dto.CboardDto">
+		select * from cboard where cno=#{cno}
+	</select>
+	
+</mapper>

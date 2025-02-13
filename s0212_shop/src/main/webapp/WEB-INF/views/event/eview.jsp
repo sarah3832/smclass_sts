@@ -1,3 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +23,8 @@
 <script type="text/javascript" src="../js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="../js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="../js/jquery.anchor.js"></script>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="../js/html5.js"></script>
 <script type="text/javascript" src="../js/respond.min.js"></script>
@@ -89,12 +96,12 @@ $(document).ready(function() {
 	<div id="header">
 		
 		<div id="snbBox">
-			<h1><img src="../images/txt/logo.gif" alt="JARDIN SHOP" /></h1>
+			<h1><a href="/"><img src="../images/txt/logo.gif" alt="JARDIN SHOP" /></a></h1>
 			<div id="quickmenu">
 				<div id="mnaviOpen"><img src="../images/btn/btn_mnavi.gif" width="33" height="31" alt="메뉴열기" /></div>
 				<div id="mnaviClose"><img src="../images/btn/btn_mnavi_close.gif" width="44" height="43" alt="메뉴닫기" /></div>
 				<ul>
-					<li><a href="#">EVENT</a></li>
+					<li><a href="/event/event">EVENT</a></li>
 					<li><a href="#">CUSTOMER</a></li>
 					<li><a href="#">COMMUNITY</a></li>
 				</ul>
@@ -187,8 +194,8 @@ $(document).ready(function() {
 
 		<div id="location">
 			<ol>
-				<li><a href="#">HOME</a></li>
-				<li><a href="#">EVENT</a></li>
+				<li><a href="/">HOME</a></li>
+				<li><a href="/event/event">EVENT</a></li>
 				<li class="last">진행중 이벤트</li>
 			</ol>
 		</div>
@@ -213,16 +220,21 @@ $(document).ready(function() {
 						<div class="viewHead">
 							<div class="subject">
 								<ul>
-									<li>까페모리 봄바람 커피한잔 30% 할인 이벤트!!</li>
+									<li>${edto.etitle }</li>
 								</ul>
 							</div>
 							<div class="day">
-								<p class="txt">이벤트 기간<span>2014-04-01 ~ 2014-04-29</span></p>
+								<p class="txt">이벤트 기간<span>
+								<fmt:formatDate value="${edto.stdate }" pattern="yyyy-MM-dd"/>
+									~
+									<fmt:formatDate value="${edto.enddate }" pattern="yyyy-MM-dd"/>
+								</span></p>
 							</div>
 						</div>
 
 						<div class="viewContents">
-							<img src="../images/img/sample_event_view.jpg" alt="" />
+							${edto.econtent }
+							<img src="/upload/board/${edto.efile2 }" alt="" />
 						</div>
 					</div>
 
@@ -252,37 +264,97 @@ $(document).ready(function() {
 						</table>
 					</div>
 					<!-- //이전다음글 -->
+					<script>
+						$(function(){
+							$(".replyBtn").click(function(){
+									if($(".replyType").val().length<1){
+										alert("댓글 내용을 입력하셔야 저장이 가능합니다.")
+										$(".replyType").focus();
+										return;
+									}
+									alert("댓글을 저장합니다.");
+									console.log("총 개수 : "+(Number($(".allcount").text())+1));
+									let cpw = $(".replynum").val();
+									let ccontent = $(".replyType").val();
+									let eno = "${edto.eno}";
+									
+									// ajax
+									$.ajax({
+										url:"/event/cwrite",  // 링크주소
+										type:"post",  // 타입
+										data:{"eno":eno,"cpw":cpw,"ccontent":ccontent},  // 파라미터
+										dataType:"json",  // 리턴받을 값의 형태
+										success:function(data){
+											console.log(data.cno);
+											console.log(data.ccontent);
+											console.log(data.cdate);
+											let cno = data.cno;
+											let ccontent = data.ccontent;
+											let cdate = data.cdate;
+											let id = data.id;
+											
+											// 데이터 html코드 생성
+											let hdata = '';
+											
+											hdata += '<ul id="'+cno+'">';
+											hdata += '<li class="name">'+id+'<span> ['+
+												moment(cdate).format("YYYY-MM-DD HH:mm:ss")
+												+' }]</span></li>';
+											hdata += '<li class="txt">'+ccontent+'</li>';
+											hdata += '<li class="btn">';
+											hdata += '<a class="rebtn updateBtn">수정</a>&nbsp';
+											hdata += '<a class="rebtn deleteBtn">삭제</a>';
+											hdata += '</li>';
+											hdata += '</ul>';
+											
+											// 총 개수 1증가
+											let allcount = Number($(".allcount").text())+1;
+											$(".replyBox").prepend(hdata);
+											
+											// 입력된 글 삭제
+											$(".replynum").val("");
+											$(".replyType").val("");
+										},
+										error:function(){
+											alert("댓글저장 실패");
+										}
+									});
+							});
+						});
+					</script>
 
 
 					<!-- 댓글-->
 					<div class="replyWrite">
 						<ul>
 							<li class="in">
-								<p class="txt">총 <span class="orange">3</span> 개의 댓글이 달려있습니다.</p>
+								<p class="txt">총 <span class="orange allcount">${clist.size()}</span>개의 댓글이 달려있습니다.</p>
 								<p class="password">비밀번호&nbsp;&nbsp;<input type="password" class="replynum" /></p>
 								<textarea class="replyType"></textarea>
 							</li>
-							<li class="btn"><a href="#" class="replyBtn">등록</a></li>
+							<li class="btn"><a class="replyBtn">등록</a></li>
 						</ul>
 						<p class="ntic">※ 비밀번호를 입력하시면 댓글이 비밀글로 등록 됩니다.</p>
 					</div>
 
 					<div class="replyBox">
+						<c:forEach items="${clist }" var="cdto">
+						<ul id="${cdto.cno}">
+							<li class="name">${cdto.id } <span>[${cdto.cdate}]</span></li>
+							<li class="txt">${cdto.ccontent }</li>
+							<li class="btn">
+								<a class="rebtn updateBtn">수정</a>
+								<a class="rebtn deleteBtn">삭제</a>
+							</li>
+						</ul>
+						</c:forEach>
+					<!-- 댓글수정, 비밀글
 						<ul>
 							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
 							<li class="txt"><textarea class="replyType"></textarea></li>
 							<li class="btn">
-								<a href="#" class="rebtn">수정</a>
-								<a href="#" class="rebtn">삭제</a>
-							</li>
-						</ul>
-
-						<ul>
-							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
-							<li class="txt">대박!!! 이거 저한테 완전 필요한 이벤트였어요!!</li>
-							<li class="btn">
-								<a href="#" class="rebtn">수정</a>
-								<a href="#" class="rebtn">삭제</a>
+								<a href="#" class="rebtn">완료</a>
+								<a href="#" class="rebtn">취소</a>
 							</li>
 						</ul>
 
@@ -292,6 +364,7 @@ $(document).ready(function() {
 								<a href="password.html" class="passwordBtn"><span class="orange">※ 비밀글입니다.</span></a>
 							</li>
 						</ul>
+					 -->
 					</div>
 					<!-- //댓글 -->
 
@@ -300,7 +373,7 @@ $(document).ready(function() {
 					<div class="btnArea">
 						<div class="bRight">
 							<ul>
-								<li><a href="#" class="sbtnMini mw">목록</a></li>
+								<li><a href="/event/event" class="sbtnMini mw">목록</a></li>
 							</ul>
 						</div>
 					</div>
