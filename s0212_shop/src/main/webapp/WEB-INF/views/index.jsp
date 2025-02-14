@@ -95,6 +95,17 @@ $(document).ready(function() {
 
 
 });
+
+// 로그인 여부
+if("${param.loginChk}"=="1"){
+	alert("로그인이 되었습니다.");
+}
+
+// 로그아웃 여부
+if("${param.loginChk}"=="0"){
+	alert("로그아웃 되었습니다.");
+}
+
 </script>
 </head>
 <body>
@@ -168,8 +179,15 @@ $(document).ready(function() {
 			</div>
 			<div id="snb">
 				<ul>
-					<li><a href="#">LOGIN</a></li>
-					<li><a href="#">JOIN</a></li>
+				
+					<c:if test="${session_id == null}">
+						<li><a href="/member/login">LOGIN</a></li>
+						<li><a href="/member/join">JOIN</a></li>
+					</c:if>
+					<c:if test="${session_id != null}">
+						<li>${session_id } 님</a></li>
+						<li><a href="/member/logout">LOGOUT</a></li>
+					</c:if>
 					<li><a href="#">MY PAGE</a></li>
 					<li><a href="#">CART</a></li>
 				</ul>

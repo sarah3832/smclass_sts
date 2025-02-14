@@ -265,62 +265,206 @@ $(document).ready(function() {
 					</div>
 					<!-- //이전다음글 -->
 					<script>
-						$(function(){
-							$(".replyBtn").click(function(){
-									if($(".replyType").val().length<1){
-										alert("댓글 내용을 입력하셔야 저장이 가능합니다.")
-										$(".replyType").focus();
-										return;
+					  $(function(){
+							let chk = 0;  // 화면창 열림체크
+							let cno;
+							let eno = "${edto.eno}";
+							let id = "${session_id}";
+							let cdate;
+							let ccontent;
+							
+						  // 댓글쓰기
+						  $(".replyBtn").click(function(){
+								if("${session_id}" == ""){
+									alert("로그인을 하셔야 댓글을 작성하실 수 있습니다.");
+									if(confirm("로그인 페이지로 이동하시겠습니까?")){
+										location.href="/member/login";
 									}
-									alert("댓글을 저장합니다.");
-									console.log("총 개수 : "+(Number($(".allcount").text())+1));
-									let cpw = $(".replynum").val();
-									let ccontent = $(".replyType").val();
-									let eno = "${edto.eno}";
+									return;
+								}
+							  
+								if($(".replyType").val().length<1){
+								 	alert("댓글 내용을 입력하셔야 저장이 가능합니다.");
+								 	$(".replyType").focus();
+								 	return;
+								 }
+							 	alert("댓글을 저장합니다."); 
+								 console.log("총 개수 : "+(Number($(".allcount").text())+1));
+								 
+								 let cpw = $(".replynum").val();
+								 let ccontent = $(".replyType").val();
+								 let eno = "${edto.eno}";
+							 
+								 //ajax
+								 $.ajax({
+									url:"/event/cwrite", //링크주소
+									type:"post",         //타입
+									data:{"eno":eno,"cpw":cpw,"ccontent":ccontent}, //파라미터
+									dataType:"json", //리턴받을 값의 형태
+									success:function(data){
+										console.log(data.cno);
+										console.log(data.ccontent);
+										console.log(data.cdate);
+										let cno = data.cno;
+										let ccontent = data.ccontent;
+										let cdate = data.cdate;
+										let id = data.id;
+										
+										//데이터 html코드 생성
+										let hdata = "";
+										
+										hdata += '<ul id="'+cno+'">';
+										hdata += '<li class="name">'+id+'<span> [ '+
+											moment(cdate).format("YYYY-MM-DD HH:mm:ss")
+											+' ]</span></li>';
+										hdata += '<li class="txt">'+ccontent+'</li>';
+										hdata += '<li class="btn">';
+										hdata += '<a class="rebtn updateBtn">수정</a>&nbsp';
+										hdata += '<a class="rebtn deleteBtn">삭제</a>';
+										hdata += '</li>';
+										hdata += '</ul>';
+										
+										$(".replyBox").prepend(hdata);
+										
+										//총개수 1증가
+										let allcount = Number($(".allcount").text())+1;
+										$(".allcount").text(allcount);
+										
+										//입력된 글 삭제
+										$(".replynum").val("");
+										$(".replyType").val("");
+									},
+									error:function(){
+										alert("댓글저장 실패");
+									}
+								 });//ajax
+						  }); // 댓글쓰기-replyBen
+						  
+						  // 댓글삭제 - 정적형태 : 화면표시가 되면 추가된 html소스에는 적용이 안됨.
+//						  $(".deleteBtn").click(function(){});
+						  
+						  // 댓글삭제 - 동적형태 : 추가적인 html 소스에서도 적용이 가능.
+						  $(document).on("click",".deleteBtn",function(){
+							  console.log($(this).closest("ul").attr("id"));
+							  let cno = $(this).closest("ul").attr("id");
+								if(confirm(cno+"번 댓글을 삭제하시겠습니까?")){
+									alert(cno+"번 댓글이 삭제되었습니다.")
 									
-									// ajax
 									$.ajax({
-										url:"/event/cwrite",  // 링크주소
-										type:"post",  // 타입
-										data:{"eno":eno,"cpw":cpw,"ccontent":ccontent},  // 파라미터
-										dataType:"json",  // 리턴받을 값의 형태
+										url:"/event/cdelete", //링크주소
+										type:"post",         //타입
+										data:{"cno":cno}, //파라미터
+										dataType:"text", //리턴받을 값의 형태
 										success:function(data){
-											console.log(data.cno);
-											console.log(data.ccontent);
-											console.log(data.cdate);
-											let cno = data.cno;
-											let ccontent = data.ccontent;
-											let cdate = data.cdate;
-											let id = data.id;
+											console.log(data);
 											
-											// 데이터 html코드 생성
-											let hdata = '';
+											// 삭제
+											$("#"+cno).remove();
 											
-											hdata += '<ul id="'+cno+'">';
-											hdata += '<li class="name">'+id+'<span> ['+
-												moment(cdate).format("YYYY-MM-DD HH:mm:ss")
-												+' }]</span></li>';
-											hdata += '<li class="txt">'+ccontent+'</li>';
-											hdata += '<li class="btn">';
-											hdata += '<a class="rebtn updateBtn">수정</a>&nbsp';
-											hdata += '<a class="rebtn deleteBtn">삭제</a>';
-											hdata += '</li>';
-											hdata += '</ul>';
-											
-											// 총 개수 1증가
-											let allcount = Number($(".allcount").text())+1;
-											$(".replyBox").prepend(hdata);
-											
-											// 입력된 글 삭제
-											$(".replynum").val("");
-											$(".replyType").val("");
+											//총개수 1감소
+											let allcount = Number($(".allcount").text())-1;
+											$(".allcount").text(allcount);
+
 										},
 										error:function(){
-											alert("댓글저장 실패");
+											alert("댓글삭제 실패");
 										}
-									});
-							});
-						});
+									}); // ajax
+								}
+						  }); // 댓글삭제-deleteBtn
+						  
+						  // 댓글수정 - updateBtn 
+						  $(document).on("click",".updateBtn",function(){
+								if (chk==1){
+									alert("다른 수정화면이 열려있습니다. 완료,취소 후 수정이 가능합니다.");
+									return;
+								}
+								chk=1;
+							  
+							  cno = $(this).closest("ul").attr("id");
+							  cdate = $(this).closest("ul").children(".name").children("span").text();
+							  let ccontent = $(this).closest("ul").children(".txt").text();
+							  console.log(cno);
+							  console.log($(this).closest("ul").children(".name").text());
+							  console.log(cdate);
+							  console.log(id);
+							  console.log(ccontent);
+								  
+								alert(cno+"번 수정화면 버튼클릭");
+								
+								let hdata = `
+									<li class="name">`+id+`<span> `+cdate+`</span></li>
+									<li class="txt"><textarea class="replyType">`+ccontent+`</textarea></li>
+									<li class="btn">
+										<a class="rebtn saveBtn">완료</a>
+										<a class="rebtn cancelBtn">취소</a>
+									</li>
+								`;
+								$("#"+cno).html(hdata);
+								
+						  }); // 댓글수정 - updateBtn 
+						  
+						  // 수정화면 취소 - cancelBtn
+						  $(document).on("click",".cancelBtn",function(){
+								alert(cno+"번 취소버튼 클릭");
+								console.log(id);
+								console.log(cdate);
+								console.log(ccontent);
+								
+								let hdata = `
+									<li class="name">`+ id +` <span>`+ cdate +`</span></li>
+									<li class="txt">`+ ccontent +`</li>
+									<li class="btn">
+										<a class="rebtn updateBtn">수정</a>
+										<a class="rebtn deleteBtn">삭제</a>
+									</li>
+								`;
+								$("#"+cno).html(hdata);
+								chk=0;
+
+						  });  // 수정화면 취소 - cancelBtn
+						  
+						  // 수정화면 완료 - saveBtn
+						  $(document).on("click",".saveBtn",function(){
+								alert(cno+"번 댓글을 수정하였습니다.");
+								ccontent = $(this).closest("ul").children(".txt").children(".replyType").val();
+								
+								//ajax
+							 $.ajax({
+							 	url:"/event/cupdate", //링크주소
+								type:"post",         //타입
+								data:{"eno":eno,"cno":cno,"ccontent":ccontent}, //파라미터
+								dataType:"json", //리턴받을 값의 형태
+								success:function(data){
+									console.log(data.cno);
+									console.log(data.ccontent);
+									console.log(data.cdate);
+									
+									//데이터 html코드 생성
+									let hdata = "";
+									
+									hdata += '<li class="name">'+id+'<span> [ '+
+										moment(cdate).format("YYYY-MM-DD HH:mm:ss")
+										+' ]</span></li>';
+									hdata += '<li class="txt">'+ccontent+'</li>';
+									hdata += '<li class="btn">';
+									hdata += '<a class="rebtn updateBtn">수정</a>&nbsp';
+									hdata += '<a class="rebtn deleteBtn">삭제</a>';
+									hdata += '</li>';
+									
+									$("#"+cno).html(hdata);
+								},
+								error:function(){
+									alert("댓글수정 실패");
+								}
+							 });//ajax
+							 
+							 chk=0;
+							  
+						  }); // 수정화면 완료 - saveBtn
+						  
+						  
+					  }); //jquery
 					</script>
 
 
@@ -339,36 +483,41 @@ $(document).ready(function() {
 
 					<div class="replyBox">
 						<c:forEach items="${clist }" var="cdto">
-						<ul id="${cdto.cno}">
-							<li class="name">${cdto.id } <span>[${cdto.cdate}]</span></li>
-							<li class="txt">${cdto.ccontent }</li>
-							<li class="btn">
-								<a class="rebtn updateBtn">수정</a>
-								<a class="rebtn deleteBtn">삭제</a>
-							</li>
-						</ul>
-						</c:forEach>
-					<!-- 댓글수정, 비밀글
+							<c:if test="${session_id == cdto.id }">
+							<ul id="${cdto.cno}">
+								<li class="name">${cdto.id} <span>[${cdto.cdate }]</span></li>
+								<li class="txt">${cdto.ccontent }</li>
+								<li class="btn">
+									<a class="rebtn updateBtn">수정</a>
+									<a class="rebtn deleteBtn">삭제</a>
+								</li>
+							</ul>
+						</c:if>
+							<c:if test="${session_id != cdto.id }">
 						<ul>
-							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
-							<li class="txt"><textarea class="replyType"></textarea></li>
-							<li class="btn">
-								<a href="#" class="rebtn">완료</a>
-								<a href="#" class="rebtn">취소</a>
-							</li>
-						</ul>
-
-						<ul>
-							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
+							<li class="name">${cdto.id} <span>[${cdto.cdate }]</span></li>
+							<c:if test="${cdto.cpw != null }">
 							<li class="txt">
-								<a href="password.html" class="passwordBtn"><span class="orange">※ 비밀글입니다.</span></a>
+								<a class="passwordBtn"><span class="orange">※ 비밀글입니다.</span></a>
+							</li>
+							</c:if>
+							<c:if test="${cdto.cpw == null }">
+								<li class="txt">${cdto.ccontent }</li>
+							</c:if>
+						</ul>
+						</c:if>
+					</c:forEach>
+					</div>
+
+
+						<!-- 
+						<ul>
+							<li class="name">${cdto.id } <span>[${cdto.cdate}]</span></li>
+							<li class="txt">
+								<a class="passwordBtn"><span class="orange">※ 비밀글입니다.</span></a>
 							</li>
 						</ul>
-					 -->
-					</div>
-					<!-- //댓글 -->
-
-
+						 -->
 					<!-- Btn Area -->
 					<div class="btnArea">
 						<div class="bRight">

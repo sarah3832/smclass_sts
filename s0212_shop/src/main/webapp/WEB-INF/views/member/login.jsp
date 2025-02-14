@@ -1,3 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,16 +23,24 @@
 <script type="text/javascript" src="../js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="../js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="../js/jquery.anchor.js"></script>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="../js/html5.js"></script>
 <script type="text/javascript" src="../js/respond.min.js"></script>
 <![endif]-->
 <script type="text/javascript">
-$(document).ready(function() {
-	
-
-
+$(function(){
+	$(".sbtn").click(function(){
+		loginFrm.submit();
+	})
 });
+
+
+
+//로그인 여부
+if("${loginChk}"=="0"){
+	alert("아이디 또는 패스워드가 일치하지 않습니다. 다시 로그인해주세요.");
+}
 </script>
 </head>
 <body>
@@ -101,8 +114,8 @@ $(document).ready(function() {
 			</div>
 			<div id="snb">
 				<ul>
-					<li><a href="#">LOGIN</a></li>
-					<li><a href="#">JOIN</a></li>
+					<li><a href="/member/login">LOGIN</a></li>
+					<li><a href="/member/join">JOIN</a></li>
 					<li><a href="#">MY PAGE</a></li>
 					<li><a href="#">CART</a></li>
 				</ul>
@@ -207,6 +220,7 @@ $(document).ready(function() {
 			</div><script type="text/javascript">initSubmenu(1,0);</script>
 
 
+
 			<!-- contents -->
 			<div id="contents">
 				<div id="member">
@@ -214,13 +228,15 @@ $(document).ready(function() {
 					<h3>회원 로그인</h3>
 					<div class="informbox">
 						<div class="inform">
+						<form action="/member/login" name="loginFrm" method="post">
 							<ul>
-								<li><input type="text" class="loginType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='loginType'}else {this.className='mfocusnot'}" style="ime-mode:inactive;" /></li>
-								<li><input type="password" class="passType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='passType'}else {this.className='mfocusnot'}" style="ime-mode:inactive;" /></li>
+								<li><input type="text" name="id" class="loginType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='loginType'}else {this.className='mfocusnot'}" style="ime-mode:inactive;" /></li>
+								<li><input type="password" name="pw" class="passType" onfocus="this.className='mfocus'" onblur="if (this.value.length==0) {this.className='passType'}else {this.className='mfocusnot'}" style="ime-mode:inactive;" /></li>
 							</ul>
 
-							<div class="btn"><a href="#" class="sbtn">로그인</a></div>
+							<div class="btn"><a class="sbtn">로그인</a></div>
 							<div class="chk"><input type="checkbox" id="idsave"/><label for="idsave">아이디 저장</label></div>							
+						</form>
 
 							<div class="point">
 								<p>아이디와 비밀번호를 잊으셨나요?</p>

@@ -36,4 +36,15 @@
 		select * from cboard where cno=#{cno}
 	</select>
 	
+	<!-- 하단댓글 수정 -->
+	<update id="updateCboard">
+		update cboard set ccontent = #{ccontent}, cdate=sysdate
+		where cno = #{cno}
+	</update>
+	
+	<!-- 하단댓글 삭제 -->
+	<delete id="deleteCboard">
+		delete cboard where cno = #{cno}
+	</delete>
+	
 </mapper>

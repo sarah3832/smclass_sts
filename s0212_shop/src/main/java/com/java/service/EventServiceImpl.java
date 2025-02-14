@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.java.dao.EventMapper;
 import com.java.dto.CboardDto;
 import com.java.dto.EventDto;
 
+@Transactional
 @Service
 public class EventServiceImpl implements EventService {
 
@@ -44,6 +46,20 @@ public class EventServiceImpl implements EventService {
 		CboardDto cboardDto = eventMapper.selectOneCboard(cdto.getCno());
 		
 		return cboardDto;
+	}
+
+	// 하단댓글 수정
+	@Override
+	public CboardDto cupdate(CboardDto cdto) {
+		eventMapper.updateCboard(cdto);
+		CboardDto cboardDto = eventMapper.selectOneCboard(cdto.getCno());
+		return cboardDto;
+	}
+
+	// 하단댓글 삭제
+	@Override
+	public void cdelete(int cno) {
+		eventMapper.deleteCboard(cno);
 	}
 
 }
