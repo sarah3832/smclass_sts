@@ -1,3 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +23,7 @@
 <script type="text/javascript" src="../js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="../js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="../js/jquery.anchor.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="../js/html5.js"></script>
 <script type="text/javascript" src="../js/respond.min.js"></script>
@@ -188,192 +194,134 @@ $(document).ready(function() {
 		<div id="location">
 			<ol>
 				<li><a href="#">HOME</a></li>
-				<li><a href="#">COMMUNITY</a></li>
-				<li class="last">사용 후기</li>
+				<li><a href="#">MEMBERSHIP</a></li>
+				<li class="last">회원가입</li>
 			</ol>
 		</div>
 		
 		<div id="outbox">		
 			<div id="left">
-				<div id="title2">COMMUNITY<span>커뮤니티</span></div>
+				<div id="title2">MEMBERSHIP<span>멤버쉽</span></div>
 				<ul>	
-					<li><a href="#" id="leftNavi1">체험단</a></li>
-					<li><a href="#" id="leftNavi2">사용 후기</a></li>
-					<li class="last"><a href="#" id="leftNavi3">ENJOY COFFEE</a></li>
+					<li><a href="#" id="leftNavi1">로그인</a></li>
+					<li><a href="#" id="leftNavi2">회원가입</a></li>
+					<li><a href="#" id="leftNavi3">아이디/<span>비밀번호 찾기</span></a></li>
+					<li><a href="#" id="leftNavi4">회원약관</a></li>
+					<li><a href="#" id="leftNavi5">개인정보<span>취급방침</span></a></li>
+					<li class="last"><a href="#" id="leftNavi6">이메일무단<span>수집거부</span></a></li>
 				</ul>			
 			</div><script type="text/javascript">initSubmenu(2,0);</script>
 
 
 			<!-- contents -->
 			<div id="contents">
-				<div id="mypage">
-					<h2><strong>사용 후기</strong><span>쟈뎅 제품을 구매하신 회원님들의 소중한 후기입니다.</span></h2>
+				<div id="member">
+					<h2><strong>회원가입</strong><span>회원으로 가입하시면 보다 더 다양한 혜택을 누리실 수 있습니다.</span></h2>
 					
-					<div class="productTab normaltab">
-						<ul>
-							<li><a href="#" class="on">포토 구매후기</a></li>
-							<li class="last"><a href="#">상품평</a></li>
-						</ul>						
+					<!-- STEP -->
+					<div class="stepWrap">
+						<div class="step stepon">
+							<p class="web">STEP 01</p>
+							<p class="txt">실명확인</p>
+							<p class="ck"><img src="../images/bg/bg_step.png" alt="현재위치" /></p>
+						</div>
+
+						<div class="step">
+							<p class="web">STEP 02</p>
+							<p class="txt">약관 동의</p>
+						</div>
+
+						<div class="step">
+							<p class="web">STEP 03</p>
+							<p class="txt"><span>회원정보</span> <span>입력</span></p>
+						</div>
+
+						<div class="step">
+							<p class="web">STEP 04</p>
+							<p class="txt"><span>회원가입</span> <span>완료</span></p>
+						</div>
 					</div>
-					
+					<!-- //STEP -->
+						
 
-					<!-- 포토 구매후기 -->
-					<div class="imgListType">
+					<div class="alertBox">
 						<ul>
-
-							<!-- List -->
-							<li>
-								<div class="img"><img src="../images/img/sample_epil.jpg" width="155" height="160" alt="" /></div>
-								<div class="txt">
-									<div class="subject">
-										<a href="#"><span class="orange">[먹어봤어요]</span> 쟈뎅, 테이크아웃 카페모리 구매후기</a>
-									</div>
-									<div class="conf">
-										소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.....
-									</div>
-									<div class="data">
-										<p>작성자 <span>dlsif***</span></p>
-										<p>등록일 <span>2014-03-24</span></p>
-										<p>조회수 <span>325</span></p>
-										<p>평점 
-											<span class="ty">
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-											</span>
-										</p>
-									</div>
-								</div>
-							</li>
-							<!-- //List -->
-
-							<li>
-								<div class="img"><img src="../images/img/sample_epil.jpg" width="155" height="160" alt="" /></div>
-								<div class="txt">
-									<div class="subject">
-										<a href="#"><span class="orange">[먹어봤어요]</span> 쟈뎅, 테이크아웃 카페모리 구매후기</a>
-									</div>
-									<div class="conf">
-										소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.....
-									</div>
-									<div class="data">
-										<p>작성자 <span>dlsif***</span></p>
-										<p>등록일 <span>2014-03-24</span></p>
-										<p>조회수 <span>325</span></p>
-										<p>평점 
-											<span>
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-											</span>
-										</p>
-									</div>
-								</div>
-							</li>
-
-							<li>
-								<div class="img"><img src="../images/img/sample_epil.jpg" width="155" height="160" alt="" /></div>
-								<div class="txt">
-									<div class="subject">
-										<a href="#"><span class="orange">[먹어봤어요]</span> 쟈뎅, 테이크아웃 카페모리 구매후기</a>
-									</div>
-									<div class="conf">
-										소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.....
-									</div>
-									<div class="data">
-										<p>작성자 <span>dlsif***</span></p>
-										<p>등록일 <span>2014-03-24</span></p>
-										<p>조회수 <span>325</span></p>
-										<p>평점 
-											<span>
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-											</span>
-										</p>
-									</div>
-								</div>
-							</li>
-
-							<li>
-								<div class="img"><img src="../images/img/sample_epil.jpg" width="155" height="160" alt="" /></div>
-								<div class="txt">
-									<div class="subject">
-										<a href="#"><span class="orange">[먹어봤어요]</span> 쟈뎅, 테이크아웃 카페모리 구매후기</a>
-									</div>
-									<div class="conf">
-										소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.소문만큼 맛있었습니다.....
-									</div>
-									<div class="data">
-										<p>작성자 <span>dlsif***</span></p>
-										<p>등록일 <span>2014-03-24</span></p>
-										<p>조회수 <span>325</span></p>
-										<p>평점 
-											<span>
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-												<img src="../images/ico/ico_star.gif" alt="별점" />
-											</span>
-										</p>
-									</div>
-								</div>
-							</li>
-
+							<li>회원님의 실명확인 및 가입 여부를 확인하는 절차입니다.</li>
+							<li>회원님의 개인 정보 보호를 위해 실명확인을 실시하고 있습니다.</li>
 						</ul>
 					</div>
+					
+					<!-- talbe 추가 -->
+					<div class="checkDivTab">
+						<table summary="분류, 구매여부, 평가, 제목, 상세 내용 순으로 상품평을 작성 하실수 있습니다." class="checkTable" border="1" cellspacing="0">
+							<caption>상품평 작성</caption>
+							<colgroup>
+							<col width="25%" class="tw30" />
+							<col width="*" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th scope="row"><span>이메일주소 입력</span></th>
+									<td>
+										<input type="text" class="wlong" name="email" />
+									</td>
+								</tr>
+								<tr>
+									<th scope="row"><span>인증코드</span></th>
+									<td>
+										<input type="text" class="wlong" readonly />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<script>
+						$(function(){
+							$(".nbtnbig").click(()=>{
+								let email = $('input[name="email"]');
+								if(email.val().length<1){
+									alert("이메일을 입력하셔야 합니다.");
+									email.focus();
+									return;
+								}
+								alert("이메일로 인증코드를 발송하였습니다.");
+								alert(email.val());
+								
+								// ajax 이메일발송
+								$.ajax({
+									url:"/member/sendEmail",
+									type:"post",
+									data:{"email":email.val()},
+									success:function(data){
+										alert("성공");
+										console.log(data);
+									},
+									error:function(){
+										alert("이메일 발송 실패");
+									}
+									
+								}); // ajax
+							}); // email
+						}); // jquery
+					</script>
 
-
-					<div class="btnAreaList">
-						<div class="bwright">
-							<ul>
-								<li><a href="#" class="sbtnMini">글쓰기</a></li>
+					<!-- Btn Area -->
+					<div class="btnArea">
+						<div class="bCenter">
+							<ul>																
+								<li><a class="nbtnbig">인증코드 발송</a></li>
+								<li><a href="#" class="sbtnMini">다음단계</a></li>
 							</ul>
 						</div>
-
-						<!-- 페이징이동1 -->
-						<div class="allPageMoving1">
-
-						<a href="#" class="n"><img src="../images/btn/btn_pre2.gif" alt="처음으로"/></a><a href="#" class="pre"><img src="../images/btn/btn_pre1.gif" alt="앞페이지로"/></a>
-						<strong>1</strong>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#" class="next"><img src="../images/btn/btn_next1.gif" alt="뒤페이지로"/></a><a href="#" class="n"><img src="../images/btn/btn_next2.gif" alt="마지막페이지로"/></a>
-
-						</div>
-						<!-- //페이징이동1 -->
 					</div>
-
-					<div class="searchWrap">
-						<div class="search">
-							<ul>
-								<li class="web"><img src="../images/txt/txt_search.gif" alt="search" /></li>
-								<li class="se">
-									<select>
-										<option value="" />제목</option>
-									</select>
-								</li>
-								<li><input type="text" class="searchInput" /></li>
-								<li class="web"><a href="#"><img src="../images/btn/btn_search.gif" alt="검색" /></a></li>
-								<li class="mobile"><a href="#"><img src="../images/btn/btn_search_m.gif" alt="검색" /></a></li>
-							</ul>
-						</div>
-					</div>
-					<!-- //포토 구매후기 -->
+					<!-- //Btn Area -->
 
 
 				</div>
 			</div>
 			<!-- //contents -->
+
 
 		</div>
 	</div>
