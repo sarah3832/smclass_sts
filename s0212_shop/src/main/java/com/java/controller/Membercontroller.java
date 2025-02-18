@@ -1,6 +1,5 @@
 package com.java.controller;
 
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.java.dto.MemberDto;
 import com.java.service.MemberService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -24,7 +25,12 @@ public class Membercontroller {
 	
 	// 로그인 페이지 열기
 	@GetMapping("/member/login")
-	public String login() {
+	public String login(HttpServletResponse response) {
+		// 쿠키생성 - 자바에서 생성
+//		Cookie cookie = new Cookie("cook_id", "aaa");
+//		cookie.setMaxAge(60*60*24); // 1일
+//		response.addCookie(cookie); // cookie 저장
+		
 		return "member/login";
 	}
 	
@@ -54,15 +60,45 @@ public class Membercontroller {
 		return "member/step01";
 	}
 	
-	// 인증코드 이메일 발송
+	// 회원가입 페이지 02
+	@GetMapping("/member/step02")
+	public String step02() {
+		session.removeAttribute("pwCode");  // 섹션 삭제
+		return "member/step02";
+	}
+	
+	// 인증코드 이메일 발송 - text
 	@ResponseBody
 	@PostMapping("/member/sendEmail")
 	public String sendEmail(String email) {
 		System.out.println("sendEmail : "+email);
-//		String pwCode = memberSerive.sendEmail(email);  // email 발송 - text
-		String pwCode = memberSerive.sendEmail2(email);  // email 발송 - html
+		String pwCode = memberSerive.sendEmail(email);  // email 발송 - text
 		
 		return pwCode;
+	}
+	
+	// 인증코드 이메일 발송2 - html
+	@ResponseBody
+	@PostMapping("/member/sendEmail2")
+	public String sendEmail2(String email) {
+		System.out.println("sendEmail2 : "+email);
+		String pwCode = memberSerive.sendEmail2(email);  // email 발송 - html
+		session.setAttribute("pwCode", pwCode);
+		
+		return pwCode;
+	}
+	
+	// 인증코드 확인
+	@ResponseBody
+	@PostMapping("/member/pwCodeCheck")
+	public String pwCodeCheck(String pwCode) {
+		System.out.println("pwCodeCheck pwCode : "+pwCode);
+		String pw = (String)session.getAttribute("pwCode");
+		if(pwCode.equals(pw)) {
+			return "1";
+		}else {
+			return "0";
+		}
 	}
 	
 

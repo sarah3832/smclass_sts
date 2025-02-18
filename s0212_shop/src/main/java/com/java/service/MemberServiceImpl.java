@@ -49,7 +49,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String sendEmail2(String email) {
 		String pwCode = getCreateKey();
-		// 네이버 이메일 발송 - html
+		// 네이버 이메일 발송 - 보내는 주소가 네이버메일이 아니면 에러
 		MimeMessage message = javaMailSender.createMimeMessage();
 		try {
 			message.setSubject("[ 안내 ] 회원가입 코드 비밀번호를 보내드립니다.");
@@ -81,7 +81,7 @@ public class MemberServiceImpl implements MemberService {
 					+ "		<table width='618' height='194' cellpadding='0' cellspacing='0' align='center' style='margin:0 0 0 40px;border:1px #d9d9d9 solid;'>\r\n"
 					+ "		<tr>\r\n"
 					+ "			<td style='width:618px;height:194px;padding:0;margin:0;vertical-align:top;font-size:0;line-height:0;background:#f9f9f9;'>\r\n"
-					+ "				<p style='width:620px;margin:30px 0 0 0;padding:0;text-align:center;'><img src='../images/email/img_txt_password02.jpg' alt='JARDIN에서 비밀번호 찾기를 요청하셨습니다.' /></p>\r\n"
+					+ "				<p style='width:620px;margin:30px 0 0 0;padding:0;text-align:center;'><img src='https://cafeptthumb-phinf.pstatic.net/MjAyNTAyMThfNzQg/MDAxNzM5ODQxMzE4ODAz.qRIvyHCMO_8nGsq[…]DTemykQq84NQOwg.JPEG/img_txt_password02.jpg?type=w1600' alt='JARDIN에서 비밀번호 찾기를 요청하셨습니다.' /></p>\r\n"
 					+ "				<p style='width:620px;margin:10px 0 0 0;padding:0;text-align:center;color:#888888;font-size:12px;line-height:1;'>아래의 PASSWORD는 회원가입을 위한 임시코드 비밀번호 입니다.</p>\r\n"
 					+ "				<p style='width:620px;margin:28px 0 0 0;padding:0;text-align:center;color:#666666;font-size:12px;line-height:1;'><strong>회원가입 코드 패스워드 : <span style='color:#f7703c;line-height:1;'>"+pwCode+"</span></strong></p>\r\n"
 					+ "				<p style='width:620px;margin:30px 0 0 0;padding:0;text-align:center;color:#888888;font-size:12px;line-height:1.4;'>쟈뎅샵에서는 고객님께 보다 나은 서비스를 제공하기 위해 항상 노력하고 있습니다.<br/>앞으로 많은 관심 부탁드립니다.</p>\r\n"
