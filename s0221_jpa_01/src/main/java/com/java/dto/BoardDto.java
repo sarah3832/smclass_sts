@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,9 +53,9 @@ public class BoardDto {
 	
 	@ColumnDefault("0")  // 숫자 "0" / 문자 "'남자'" (홀따움표 추가)
 	private String bstep;
-	@ColumnDefault("0")  // 숫자 "0" / 문자 "'남자'" (홀따움표 추가)
+	@ColumnDefault("0")  
 	private String bindent;
-	@ColumnDefault("0")  // 숫자 "0" / 문자 "'남자'" (홀따움표 추가)
+	@ColumnDefault("0") 
 	private String bhit;
 	
 	@UpdateTimestamp  // 자동 시간입력
@@ -63,5 +64,6 @@ public class BoardDto {
 	@Column(nullable = true, length = 100)
 	private String bfile;
 
+	
 
 }
