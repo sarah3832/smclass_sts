@@ -1,6 +1,7 @@
 package com.java.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -63,6 +64,12 @@ public class BoardDto {
 	
 	@Column(nullable = true, length = 100)
 	private String bfile;
+	
+	// CboardDto의 boardDto 컬럼을 넣어줌 (BoardDto boardDto 이름을 가져옴)
+	// mappedBy 연관관계 주인이 아님 - FK 생성 x
+	// 테이블을 조인해서 가져오는 것만 하면 됨.
+	@OneToMany(mappedBy = "boardDto",fetch=FetchType.EAGER)
+	private List<CboardDto> clist;
 
 	
 
