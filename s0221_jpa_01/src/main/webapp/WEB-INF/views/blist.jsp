@@ -23,6 +23,7 @@
 				<col width="*">
 				<col width="10%">
 				<col width="15%">
+<<<<<<< HEAD
 				<col width="15%">
 				<col width="10%">
 			</colgroup>
@@ -41,6 +42,23 @@
 					<td>${bdto.memberDto.id }</td>
 					<td>${bdto.bdate }</td>
 					<td>${bdto.bfile }</td>
+=======
+				<col width="10%">
+			</colgroup>
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>작성일</th>
+				<th>조회수</th>
+			</tr>
+			<c:forEach items="${list }" var="bdto">
+				<tr>
+					<td>${bdto.bno }</td>
+					<td>${bdto.btitle }</td>
+					<td>${bdto.id }</td>
+					<td>${bdto.bdate }</td>
+>>>>>>> branch 'master' of https://github.com/sarah3832/smclass_sts.git
 					<td>${bdto.bhit }</td>
 				</tr>
 			</c:forEach>

@@ -1,6 +1,7 @@
 package com.java.dto;
 
 import java.sql.Timestamp;
+<<<<<<< HEAD
 import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -72,5 +73,29 @@ public class BoardDto {
 	private List<CboardDto> clist;
 
 	
+=======
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class BoardDto {
+	
+	private int bno;
+	private String btitle;
+	private String bcontent;
+	private String id;
+	private String bgroup;
+	private String bstep;
+	private String bindent;
+	private String bhit;
+	private Timestamp bdate;
+
+>>>>>>> branch 'master' of https://github.com/sarah3832/smclass_sts.git
 
 }

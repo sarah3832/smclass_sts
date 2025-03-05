@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,6 +58,47 @@ public class MemberController {
 		model.addAttribute("list",list);
 		
 		return list;
+=======
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.java.dto.MemberDto;
+import com.java.service.MemberService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class MemberController {
+	
+	@Autowired
+	MemberService memberService;
+	@Autowired
+	HttpSession session;
+	
+	// 회원가입 페이지
+	@GetMapping("/member")
+	public String member() {
+		return "member";
+	}
+	
+	// 회원가입 하기 - insert
+	@PostMapping("/member")
+	public String member(MemberDto mdto) {
+		memberService.save(mdto);
+		
+		return "redirect:/";
+	}
+	
+	// 회원리스트 페이지
+	@GetMapping("/mlist")
+	public String mlist(Model model) {
+		// 전체 회원리스트 - selectAll
+		List<MemberDto> list = memberService.findAll();
+		model.addAttribute("list",list);
+		
+		return "mlist";
+>>>>>>> branch 'master' of https://github.com/sarah3832/smclass_sts.git
 	}
 	
 	// 회원정보 상세보기 

@@ -16,9 +16,15 @@
 				<li><a href="/login">로그인</a></li>
 				<li><a href="/member">회원가입</a></li>
 				<li><a href="/mlist">회원 리스트</a></li>
+<<<<<<< HEAD
 				<li><a href="/blist">게시판</a></li>
 				<hr>
 				<li><a href="/member/logout">로그아웃</a></li>
+=======
+				<hr>
+				<li><a href="/member/logout">로그아웃</a></li>
+				<li><a href="/board/blist">게시판</a></li>
+>>>>>>> branch 'master' of https://github.com/sarah3832/smclass_sts.git
 				<li><a href="/board/boardWrite">글쓰기</a></li>
 				<li><a href="/board/bview?bno=2">게시글 보기</a></li>
 				<li><a href="/memInfo">회원정보</a></li>
