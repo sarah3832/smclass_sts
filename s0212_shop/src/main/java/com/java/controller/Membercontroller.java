@@ -1,11 +1,15 @@
 package com.java.controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.java.dto.MemberDto;
@@ -22,6 +26,28 @@ public class Membercontroller {
 	HttpSession session;
 	@Autowired
 	MemberService memberSerive;
+	
+	// 리액트 회원전체 가져오기
+	@CrossOrigin
+	@ResponseBody
+	@GetMapping("/member/memberList")
+	public List<MemberDto> memberList() {
+		List<MemberDto> list = memberSerive.memberList();
+		
+		return list;
+	}
+	
+	// 리액트 회원1명 가져오기
+	// json데이터로 전달 받으면 @RequestBody 붙어야함.
+	@CrossOrigin
+	@ResponseBody
+	@GetMapping("/member/memberView")
+	public MemberDto memberView(String id) {
+		System.out.println("memberView id : "+id);
+		MemberDto memberDto = memberSerive.memberView(id);
+		
+		return memberDto;
+	}
 	
 	// 로그인 페이지 열기
 	@GetMapping("/member/login")

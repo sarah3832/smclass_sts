@@ -9,6 +9,16 @@
 	<select id="selectLogin" resultType="com.java.dto.MemberDto">
 		select * from member where id=#{id} and pw=#{pw}
 	</select>
+
+	<!-- 리액트 회원전체 가져오기 -->
+	<select id="selectAll" resultType="com.java.dto.MemberDto">
+		select * from member
+	</select>
+
+	<!-- 리액트 회원1명 가져오기 -->
+	<select id="selectOne" resultType="com.java.dto.MemberDto">
+		select * from member where id=#{id}
+	</select>
 	
 	
 </mapper>
